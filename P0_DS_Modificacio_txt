@@ -1,0 +1,62 @@
+1. Es volen incorporar usuaris que tinguin la seva pròpia biblioteca de fitxers multimèdia
+		
+		Tenint en compta de que haurem d'emmagatzemar aquesta informació a l'applicació, hem de crear una nova classe al paquet model, anomenada Usuari, que tingui contingui un atribut anomenat biblioteca, de forma que serà aquesta la seva biblioteca personal.
+		Hem de crear mètodes per poder accedir a la biblioteca personal de l'usuari, dins de la classe Usuari, per poder facilitar l'accés desde la classe Dades, i seguidament mètodes a la classe Dades per accedir desde el controlador que tenim a AplicacióUB3.
+		Si volem un accés a aquests diferents usuaris els haurem d'emmagatzemar a la classe Dades, en un ArrayList<Usuaris> i han de ser accesibles desde el menú.
+
+		EL més correcte seria crear mètodes que retornin el que necessitem del usuari desde la classe Dades, pero que el controlador no pugues tractar amb aquestes dades directament, només ha de cridar a mètodes de Dades.
+
+		DAVID HA APUNTADO MODIFICAR LA CLASSE CARPETA FITXERS ¿¿!!?? PORQUE
+
+	a. un usuari es pot enregistrar a l'aplicació amb un nom i una clau
+
+		Si els usuaris s'han de enregistrar amb un nom i una clau aquests han de ser atributs de la calse Usuari. Y com pasaba abans ha de ser accesible desde el controlador, per tant hem de fer setters i getters dins de la classe Usuari, i també a Dades i a COntrolador.
+
+	b. si l'usuari ja està enregistrat, se li notifica
+
+		A la hora de enregistrar-se hem de comprobar que l'usuari ja estigui enregistrat(mètode Dades), llança una AplicacioException si és el cas, que s'hagafa amb un try catch a la classe AplicacióUB4 (ha de ser rellançada desde els mètodes que passi), i al menu mostrem l'error.
+
+	c. un usuari pot fer login a l'aplicació i llavors té la utilitat de crear àlbums en la seva
+		biblioteca i afegir els fitxers multimèdia que consideri
+
+		Afegin la opcio de fer log in al menu, i per fer un log in hem preguntar l'usuari i la clau per consola, i hem de mirar per començar si existeix l'usuari (mètode Dades), i seguidament si es la contrasenya d'aquest usuari (mètode Dades).
+		HEM DE DONAR LA POSIBILITAT DE CREAR EMMAGATZEMAR ALBUMS DINS DE DADES AMB EL MATEIX NOM, ENCARA QUE NO PER A UN MATEIX USUARI.
+
+	d. un usuari només pot reproduir els fitxers dels seus àlbums
+
+		Els usuaris tenen una referencia als albums emmagatzemats a dades. Fem que els albums ja no puguin ser accesibles per mètodes directes, sino que només desde un menu quan fem log in com a usuari, i només als referenciats per aquest objecte, en un ArrayList<Albums> que conté la classe Usuari.
+
+
+2. Com al client li agrada el concepte de poder compartir fitxers, s'activarà l'opció de convidar
+	a un usuari perquè pugui veure el contingut d'un àlbum o d'un fitxer multimèdia concret.
+	
+		Hem d'habilitar una opcio al menu per invitar usuaris a veure un album.
+
+	a. l'àlbum apareixerà a llistat d'àlbums de l'altre usuari
+	
+		Quan invitem a un usuari a veure un album hem de fer que aqeuest pugui ser accedit desde l'usuari invitat, per tant hem de mantenir una referencia dels albums emmagatzemats a Dades dins de un ArrayList a Usuari, de forma que hem de afegir la referencia de l'album transpasat dins del usuari seleccionat.
+
+	b. si només es comparteix un fitxer, a l'usuari destí li apareixerà en un àlbum especial
+		que es dirà Album Compartit
+
+		Creem un album a l'array existent a Dades amb el fitxer compartit, hem de crear tots els mètodes pertinents per tenir l'opció (metodes a dades i controlador, i modificacions al menu per compartir fitxer), pero aquest album es nomes accesible per l'usuari al que li compartim el fitxer, i només crearem aquest album en el cas de que sigui inexistent.
+
+	c. Quan un àlbum o un fitxer es comparteixi amb un altre usuari, canviarà de color per
+		identificar-lo (tant a l'àlbum/fitxer d'origen com al de destí).
+
+		Podem afegir un atribut a album que ens indiqui el color, i mètodes per canviar el color, o identificar si aquest esta compartit per un atribut al album o si té més d'un propietari, que també podria ser una llista dins del album.
+
+		Si guardem els usuaris que tenen permisos per veure aquest album podem fer un mètode per mirar si el lenght és >1, de forma que pintem l'album d'un altre color.
+		Sino podem crear un altre ArrayList<ALbum> que referenci els albums compartits per auqest usuari.
+
+3. Es vol afegir l'opció de fer una llista de diferents àlbums a reproduir de forma aleatòria o
+	cíclica. Cada àlbum es reproduirà de forma seqüencial, però l'ordre entre diferents àlbums
+	serà aleatori o cíclic. 
+
+		Utilitzem una llista de albums que volem reproduir i una de booleans de controla per saber si s'ha reproduit ja l'album (dins de EScoltadorRepproducció), de forma que un mètode reprodueix els albums continua o aleatoriament segons els atributs assignats a la classe Dades, que estan continguts a EscoltadorReptroduccio també, i farà la crida de el metode per reproduir una biblioteca amb una llista amb els fiitxersReproduibles de l'album, de forma sequencial.
+
+
+4. Es demana també que guardar les dades de cada sessió a disc per a tenir-les disponibles a
+la següent sessió.
+
+		L'unic que hem de fer és permitir la serialització de la classe Usuari, fent un implement de Serializable.
